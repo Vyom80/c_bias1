@@ -1,0 +1,113 @@
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cognitive Bias Cards</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            font-family: Arial, sans-serif;
+        }
+        .stack {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            margin-bottom: 50px; /* Added margin to push the button lower */
+        }
+        .card {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+            padding: 10px;
+        }
+        .card p {
+            margin: 5px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .card span {
+            font-size: 0.9em;
+            margin-top: 5px;
+            padding: 5px;
+            display: block;
+        }
+        .card img {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 10px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cognitive Bias Cards</h1>
+    <div class="stack" id="cardStack">
+        <!-- Cards will be inserted here by JavaScript -->
+    </div>
+    <button onclick="resetCards()">Reset</button>
+    
+    <script>
+        const initialBiases = [
+            { name: "Confirmation Bias", desc: "The tendency to search for, interpret, and remember information in a way that confirms one's beliefs.", img: "https://via.placeholder.com/60/ff5733/ffffff?text=CB" },
+            { name: "Anchoring Bias", desc: "Relying too heavily on the first piece of information encountered when making decisions.", img: "https://via.placeholder.com/60/33ff57/ffffff?text=AB" },
+            { name: "Loss Aversion", desc: "People prefer to avoid losses rather than acquire equivalent gains.", img: "https://via.placeholder.com/60/3357ff/ffffff?text=LA" },
+            { name: "Recency Bias", desc: "The tendency to weigh recent events more heavily than earlier events.", img: "https://via.placeholder.com/60/ff33a8/ffffff?text=RB" },
+            { name: "Availability Heuristic", desc: "Overestimating the importance of information that is more easily recalled.", img: "https://via.placeholder.com/60/ffff33/000000?text=AH" },
+            { name: "Sunk Cost Fallacy", desc: "Continuing an endeavor because of previously invested resources rather than future gains.", img: "https://via.placeholder.com/60/33ffff/000000?text=SC" }
+        ];
+        
+        let biases = [...initialBiases];
+        
+        const stack = document.getElementById("cardStack");
+        
+        function renderCards() {
+            stack.innerHTML = "";
+            biases.forEach((bias, index) => {
+                let card = document.createElement("div");
+                card.classList.add("card");
+                card.style.transform = `translateY(${index * 5}px)`;
+                card.innerHTML = `<img src="${bias.img}" alt="${bias.name}"><p>${bias.name}</p><span>${bias.desc}</span>`;
+                card.onclick = function () {
+                    alert(`${bias.name}: ${bias.desc}`);
+                    biases.push(biases.shift()); // Move selected card to the bottom
+                    renderCards();
+                };
+                stack.appendChild(card);
+            });
+        }
+        
+        function resetCards() {
+            biases = [...initialBiases];
+            renderCards();
+        }
+        
+        renderCards();
+    </script>
+</body>
+</html>
+
